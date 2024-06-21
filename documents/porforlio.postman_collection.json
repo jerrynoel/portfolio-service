@@ -1,0 +1,520 @@
+{
+	"info": {
+		"_postman_id": "0c9ff90c-98fb-4cf3-9bc7-5f8b9bcefdad",
+		"name": "porforlio",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "209902"
+	},
+	"item": [
+		{
+			"name": "Files",
+			"item": [
+				{
+					"name": "Create Signed Url - Images",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.collectionVariables.set(\"s3_url\", jsonData.url);\r",
+									"pm.collectionVariables.set(\"s3_key\", jsonData.fields.Key);\r",
+									"pm.collectionVariables.set(\"s3_bucket\", jsonData.fields.bucket);\r",
+									"pm.collectionVariables.set(\"s3_X-Amz-Algorithm\", jsonData.fields['X-Amz-Algorithm']);\r",
+									"pm.collectionVariables.set(\"s3_X-Amz-Credential\", jsonData.fields['X-Amz-Credential']);\r",
+									"pm.collectionVariables.set(\"s3_X-Amz-Date\", jsonData.fields['X-Amz-Date']);\r",
+									"pm.collectionVariables.set(\"s3_X-Amz-Security-Token\", jsonData.fields['X-Amz-Security-Token']);\r",
+									"pm.collectionVariables.set(\"s3_Policy\", jsonData.fields.Policy);\r",
+									"pm.collectionVariables.set(\"s3_X-Amz-Signature\", jsonData.fields['X-Amz-Signature']);\r",
+									"pm.collectionVariables.set(\"s3_acl\", jsonData.fields.acl);\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{acesss-token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fileName\":\"test1.jpg\",\r\n    \"fileSize\":83850\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}files/signed-url",
+							"host": [
+								"{{baseUrl}}files"
+							],
+							"path": [
+								"signed-url"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Signed Url - Documents",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.collectionVariables.set(\"s3_url\", jsonData.url);\r",
+									"pm.collectionVariables.set(\"s3_key\", jsonData.fields.Key);\r",
+									"pm.collectionVariables.set(\"s3_bucket\", jsonData.fields.bucket);\r",
+									"pm.collectionVariables.set(\"s3_X-Amz-Algorithm\", jsonData.fields['X-Amz-Algorithm']);\r",
+									"pm.collectionVariables.set(\"s3_X-Amz-Credential\", jsonData.fields['X-Amz-Credential']);\r",
+									"pm.collectionVariables.set(\"s3_X-Amz-Date\", jsonData.fields['X-Amz-Date']);\r",
+									"pm.collectionVariables.set(\"s3_X-Amz-Security-Token\", jsonData.fields['X-Amz-Security-Token']);\r",
+									"pm.collectionVariables.set(\"s3_Policy\", jsonData.fields.Policy);\r",
+									"pm.collectionVariables.set(\"s3_X-Amz-Signature\", jsonData.fields['X-Amz-Signature']);\r",
+									"pm.collectionVariables.set(\"s3_acl\", jsonData.fields.acl);\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{acesss-token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"currentProfile\":{\r\n        \"businessId\":\"test\"\r\n    },\r\n    \"fileName\":\"sample.pdf\",\r\n    \"fileSize\":3028\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}files/signed-url",
+							"host": [
+								"{{baseUrl}}files"
+							],
+							"path": [
+								"signed-url"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upload to S3 By Signed Upload Url",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"s3_key\", '');\r",
+									"pm.collectionVariables.set(\"s3_bucket\", '');\r",
+									"pm.collectionVariables.set(\"s3_X-Amz-Algorithm\", '');\r",
+									"pm.collectionVariables.set(\"s3_X-Amz-Credential\", '');\r",
+									"pm.collectionVariables.set(\"s3_X-Amz-Date\", '');\r",
+									"pm.collectionVariables.set(\"s3_X-Amz-Security-Token\", '');\r",
+									"pm.collectionVariables.set(\"s3_Policy\", '');\r",
+									"pm.collectionVariables.set(\"s3_X-Amz-Signature\", '');\r",
+									"pm.collectionVariables.set(\"s3_acl\", '');"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{acesss-token}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "Key",
+									"value": "{{s3_key}}",
+									"type": "text"
+								},
+								{
+									"key": "success_action_status",
+									"value": "201",
+									"type": "text"
+								},
+								{
+									"key": "bucket",
+									"value": "{{s3_X-Amz-Algorithm}}",
+									"type": "text"
+								},
+								{
+									"key": "X-Amz-Algorithm",
+									"value": "AWS4-HMAC-SHA256",
+									"type": "text"
+								},
+								{
+									"key": "X-Amz-Credential",
+									"value": "{{s3_X-Amz-Credential}}",
+									"type": "text"
+								},
+								{
+									"key": "X-Amz-Date",
+									"value": "{{s3_X-Amz-Date}}",
+									"type": "text"
+								},
+								{
+									"key": "X-Amz-Security-Token",
+									"value": "{{s3_X-Amz-Security-Token}}",
+									"type": "text"
+								},
+								{
+									"key": "Policy",
+									"value": "{{s3_Policy}}",
+									"type": "text"
+								},
+								{
+									"key": "X-Amz-Signature",
+									"value": "{{s3_X-Amz-Signature}}",
+									"type": "text"
+								},
+								{
+									"key": "acl",
+									"value": "{{s3_acl}}",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": ""
+								}
+							]
+						},
+						"url": {
+							"raw": "{{s3_url}}",
+							"host": [
+								"{{s3_url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get File By id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{acesss-token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}files/{{file-id}}",
+							"host": [
+								"{{baseUrl}}files"
+							],
+							"path": [
+								"{{file-id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get files",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{acesss-token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}files?type=images&pageSize=50",
+							"host": [
+								"{{baseUrl}}files"
+							],
+							"query": [
+								{
+									"key": "type",
+									"value": "images"
+								},
+								{
+									"key": "pageSize",
+									"value": "50"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete File By Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{acesss-token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}files/{{file-id}}",
+							"host": [
+								"{{baseUrl}}files"
+							],
+							"path": [
+								"{{file-id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update File By Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{acesss-token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"description\":\"test\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}files/{{file-id}}",
+							"host": [
+								"{{baseUrl}}files"
+							],
+							"path": [
+								"{{file-id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Disk Usage",
+			"item": [
+				{
+					"name": "Get Disk Usage",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{acesss-token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}disk-usage",
+							"host": [
+								"{{baseUrl}}disk-usage"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": ""
+		},
+		{
+			"key": "access-token",
+			"value": ""
+		},
+		{
+			"key": "file-id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "s3_url",
+			"value": ""
+		},
+		{
+			"key": "s3_key",
+			"value": ""
+		},
+		{
+			"key": "s3_bucket",
+			"value": ""
+		},
+		{
+			"key": "s3_X-Amz-Algorithm",
+			"value": ""
+		},
+		{
+			"key": "s3_X-Amz-Credential",
+			"value": ""
+		},
+		{
+			"key": "s3_X-Amz-Date",
+			"value": ""
+		},
+		{
+			"key": "s3_X-Amz-Security-Token",
+			"value": ""
+		},
+		{
+			"key": "s3_Policy",
+			"value": ""
+		},
+		{
+			"key": "s3_X-Amz-Signature",
+			"value": ""
+		},
+		{
+			"key": "s3_acl",
+			"value": ""
+		}
+	]
+}
